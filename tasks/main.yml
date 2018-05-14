@@ -1,0 +1,12 @@
+---
+- name: Check for epel-release in yum repostory
+  yum:
+    list: epel-release
+  register: res
+
+- name: Install EPEL from yum
+  yum: name=epel-release
+  when: res.results|length > 0
+
+- include_tasks: noyum.yml
+  when: res.results|length < 1
